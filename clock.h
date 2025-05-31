@@ -12,6 +12,30 @@
 #define FLUENT_LIBC_CLOCK_LIBRARY_H
 
 // ============= FLUENT LIB C =============
+// High-Resolution Clock Utility
+// ----------------------------------------
+// Cross-platform (Windows + POSIX) nanosecond precision timing.
+//
+// Features:
+// - `get_nano_time()`: Fetch current monotonic time in ns
+// - `time_since()`: Get elapsed ns from timestamp
+// - `hr_clock_t`: Struct to hold start time
+// - `hr_clock_tick()`: Start/reset a clock
+// - `clock_nanos_to_unit()`: Convert nanoseconds to various time units
+// - `hr_clock_distance()`: Time diff between two clocks (converted)
+// - `hr_clock_distance_from_now()`: Elapsed time from clock to now
+//
+// Time Units Supported:
+// - ns, µs, ms, s, min, h, days (via `hr_clock_time_unit_t`)
+//
+// Example:
+// ----------------------------------------
+//   hr_clock_t clk;
+//   hr_clock_tick(&clk);
+//   // ... some work ...
+//   long long ms = hr_clock_distance_from_now(&clk, CLOCK_MILLISECONDS);
+//   printf("Elapsed time: %lld ms\n", ms);
+//
 
 // ============= FLUENT LIB C++ =============
 #if defined(__cplusplus)
