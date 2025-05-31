@@ -3,4 +3,4 @@ project(clock C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_library(clock STATIC library.c)
+add_library(clock STATIC clock.c clock.h)
