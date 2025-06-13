@@ -44,8 +44,7 @@ extern "C"
 #endif
 
 #ifdef _WIN32
-// Pending Windows implementation review
-// #   include <windows.h>
+#   include <windows.h>
 #else
 #   include <time.h>
 #endif
@@ -63,12 +62,12 @@ extern "C"
 static inline long long get_nano_time()
 {
 #ifdef _WIN32
-    return 0; // Pending Windows implementation review
-    // LARGE_INTEGER frequency, counter;
-    // QueryPerformanceFrequency(&frequency);
-    // QueryPerformanceCounter(&counter);
+    LARGE_INTEGER frequency, counter;
+    QueryPerformanceFrequency(&frequency);
+    QueryPerformanceCounter(&counter);
+
     // Convert to nanoseconds: (counter / frequency) * 1e9
-    // return (long long)((double)counter.QuadPart / frequency.QuadPart * 1e9);
+    return (long long)((double)counter.QuadPart / frequency.QuadPart * 1e9);
 #else
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC, &ts);
