@@ -44,7 +44,9 @@ extern "C"
 #endif
 
 #ifdef _WIN32
-#   include <windows.h>
+#   ifndef FLUENT_LIBC_NO_WINDOWS_SDK
+#       include <windows.h>
+#endif // FLUENT_LIBC_NO_WINDOWS_SDK
 #else
 #   include <time.h>
 #endif
@@ -62,12 +64,19 @@ extern "C"
 static inline long long get_nano_time()
 {
 #ifdef _WIN32
+#   ifdef FLUENT_LIBC_NO_WINDOWS_SDK
+    // If FLUENT_LIBC_NO_WINDOWS_SDK is defined, we assume
+    // the Windows SDK is not available, therefore some libraries
+    // may not be implemented.
+    return 0LL; // Return 0
+#   else
     LARGE_INTEGER frequency, counter;
     QueryPerformanceFrequency(&frequency);
     QueryPerformanceCounter(&counter);
 
     // Convert to nanoseconds: (counter / frequency) * 1e9
     return (long long)((double)counter.QuadPart / frequency.QuadPart * 1e9);
+#   endif // FLUENT_LIBC_NO_WINDOWS_SDK
 #else
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC, &ts);
